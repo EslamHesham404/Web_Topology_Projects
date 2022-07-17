@@ -70,9 +70,6 @@ public class FordFulkerson {
         protected List<Edge>[] graph;
 
         /**
-         * Creates an instance of a flow network solver. Use the {@link #addEdge} method to add edges to
-         * the graph.
-         *
          * @param n - The number of nodes in the graph including s and t.
          * @param s - The index of the source node, 0 <= s < n
          * @param t - The index of the sink node, 0 <= t < n and t != s
@@ -85,7 +82,6 @@ public class FordFulkerson {
             visited = new int[n];
         }
 
-        // Constructs an empty graph with n nodes including s and t.
         @SuppressWarnings("unchecked")
         private void initializeEmptyFlowGraph() {
             graph = new List[n];
@@ -93,8 +89,6 @@ public class FordFulkerson {
         }
 
         /**
-         * Adds a directed edge (and its residual edge) to the flow graph.
-         *
          * @param from - The index of the node the directed edge starts at.
          * @param to - The index of the node the directed edge ends at.
          * @param capacity - The capacity of the edge
@@ -108,12 +102,7 @@ public class FordFulkerson {
             graph[from].add(e1);
             graph[to].add(e2);
         }
-
-        /**
-         * Returns the residual graph after the solver has been executed. This allows you to inspect the
-         * {@link Edge#flow} and {@link Edge#capacity} values of each edge. This is useful if you are
-         * debugging or want to figure out which edges were used during the max flow.
-         */
+        
         public List<Edge>[] getGraph() {
             execute();
             return graph;
@@ -139,9 +128,6 @@ public class FordFulkerson {
     private static class FordFulkersonDfsSolver extends NetworkFlowSolverBase {
 
         /**
-         * Creates an instance of a flow network solver. Use the {@link #addEdge} method to add edges to
-         * the graph.
-         *
          * @param n - The number of nodes in the graph including s and t.
          * @param s - The index of the source node, 0 <= s < n
          * @param t - The index of the sink node, 0 <= t < n and t != s
@@ -186,8 +172,6 @@ public class FordFulkerson {
         }
     }
 
-    /* EXAMPLE */
-
     public static void main(String[] args) {
         // n is the number of nodes including the source and the sink.
         int n = 12;
@@ -197,12 +181,9 @@ public class FordFulkerson {
 
         NetworkFlowSolverBase solver = new FordFulkersonDfsSolver(n, s, t);
 
-        // Edges from source
         solver.addEdge(s, 0, 10);
         solver.addEdge(s, 1, 5);
         solver.addEdge(s, 2, 10);
-
-        // Middle edges
         solver.addEdge(0, 3, 10);
         solver.addEdge(1, 2, 10);
         solver.addEdge(2, 5, 15);
@@ -215,12 +196,9 @@ public class FordFulkerson {
         solver.addEdge(6, 7, 10);
         solver.addEdge(7, 4, 10);
         solver.addEdge(7, 5, 7);
-
-        // Edges to sink
         solver.addEdge(6, t, 15);
         solver.addEdge(8, t, 10);
 
-        // Prints:
         // Maximum Flow is: 23
         System.out.printf("Maximum Flow is: %d\n", solver.getMaxFlow());
 
